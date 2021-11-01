@@ -82,3 +82,11 @@ D:\Project\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.P
 D:\Project\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
 D:\Project\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 D:\Project\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll

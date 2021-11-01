@@ -7,6 +7,13 @@ namespace MeetingNow.Models
 {
     public class Location
     {
+        public Location(float x, float y, string address)
+        {
+            X = x;
+            Y = y;
+            Address = address;
+        }
+
         public int LocationId { get; set; }
         public float X { get; set; }
         public float Y { get; set; }
