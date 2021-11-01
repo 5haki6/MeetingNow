@@ -30,7 +30,7 @@ namespace MeetingNow.Controllers
                 Location = new Location(eventModel.X, eventModel.Y, eventModel.Address),
                 Tags = new List<Tag>()
             };
-            foreach(int i in eventModel.Tags)
+            foreach(int i in eventModel.TagsId)
             {
                 e.Tags.Add(applicationContext.Tags.FirstOrDefault(t => t.TagId == i));
             }

@@ -14,6 +14,6 @@ namespace MeetingNow.Models.ReqestModels
         public float X { get; set; }
         public float Y { get; set; }
         public string Address { get; set; }
-        public int[] Tags { get; set; }
+        public int[] TagsId { get; set; }
     }
 }
