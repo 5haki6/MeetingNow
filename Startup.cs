@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MeetingNow.Helpers;
 
 namespace MeetingNow
 {
@@ -28,8 +29,12 @@ namespace MeetingNow
         {
             services.AddControllers();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationContext>(options => options.UseMySql(connectionString, 
+            services.AddDbContext<ApplicationContext>(options => options.UseMySql(connectionString,
                 ServerVersion.AutoDetect(connectionString)));
+            services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,6 +49,7 @@ namespace MeetingNow
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
