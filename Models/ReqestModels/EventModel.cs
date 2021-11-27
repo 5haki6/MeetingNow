@@ -7,6 +7,7 @@ namespace MeetingNow.Models.ReqestModels
 {
     public class EventModel
     {
+        public int EventId { get; set; }
         public int UserId { get; set; }
         public string Name { get; set; }
         public string Info { get; set; }
