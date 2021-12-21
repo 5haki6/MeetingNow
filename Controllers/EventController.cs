@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace MeetingNow.Controllers
@@ -52,7 +54,7 @@ namespace MeetingNow.Controllers
             };
             return Json(tagsResponse);
         }
-        [Authorize]
+
         [HttpGet("getEvents")]
         public IActionResult getEvents()
         {
@@ -93,7 +95,7 @@ namespace MeetingNow.Controllers
             return BadRequest("Damn that's bad linq query. -15");
         }
         [Authorize]
-        [HttpGet("getEventById")]
+        [HttpPost("getEventById")]
         public IActionResult GetEventById([FromBody] EventsId eventsId)
         {
             List<Event> megaUltraLast = new List<Event>();
@@ -105,7 +107,7 @@ namespace MeetingNow.Controllers
         }
 
         [Authorize]
-        [HttpPost("participateInEvent")]
+        [HttpPost("participateInEvent/{eventId}")]
         public IActionResult participateInEvent(int eventId)
         {
             Event existingEvent = applicationContext.Events.Include(e => e.Users).FirstOrDefault(e => e.EventId == eventId);
@@ -177,7 +179,7 @@ namespace MeetingNow.Controllers
             return BadRequest("Invalid event`s id");
         }
         [Authorize]
-        [HttpGet("getEvent")]
+        [HttpPost("getEvent")]
         public IActionResult GetEvent([FromBody] EventInfoModel eventInfoModel)
         {
             Event existingEvent = applicationContext.Events.Include(e => e.Owner).Include(e => e.Location)
@@ -194,15 +196,137 @@ namespace MeetingNow.Controllers
                     Location = existingEvent.Location,
                     OwnerId = existingEvent.Owner.UserId,
                     OwnerLogin = existingEvent.Owner.Login,
-                    Tags = new List<Tag>()
+                    Tags = new List<Tag>(),
+                    Comments = applicationContext.Comments.Where(e => e.EventId == eventInfoModel.EventId).ToList(),
+                    UsersId = new List<int>()
                 };
                 foreach(int i in eventInfoModel.TagsId)
                 {
                     eventResponse.Tags.Add(applicationContext.Tags.Include(t => t.TagGroup).FirstOrDefault(t => t.TagId == i));
                 }
+                foreach(User u in applicationContext.Users)
+                {
+                    eventResponse.UsersId.Add(u.UserId);
+                }
                 return Json(eventResponse);
             }
             return BadRequest("Error =(");
+        }
+        [Authorize]
+        [HttpPost("addComment")]
+        public IActionResult AddComment([FromBody] CommentModel commentModel)
+        {
+            User user = (User)HttpContext.Items["User"];
+            if(!String.IsNullOrEmpty(commentModel.Text))
+            {
+                Comment comment = new Comment()
+                {
+                    Text = commentModel.Text,
+                    EventId = commentModel.EventId,
+                    UserId = user.UserId
+                };
+                applicationContext.Comments.Add(comment);
+                applicationContext.SaveChanges();
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [Authorize]
+        [HttpPost("filterByTags")]
+        public IActionResult FilterByTags([FromBody] FilterTagsModel filterTagsModel)
+        {
+            if(filterTagsModel.TagsId != null)
+            {
+                List<Event> events = new List<Event>();
+
+                foreach(int i in filterTagsModel.TagsId)
+                {
+                    Tag tag = applicationContext.Tags.FirstOrDefault(t => t.TagId == i);
+                    Event existingEvent = applicationContext.Events.FirstOrDefault(e => e.Tags.Contains(tag));
+                    if(existingEvent != null)
+                    {
+                        events.Add(existingEvent);
+                    }
+                }
+                return Json(events);
+            }
+            return BadRequest();
+        }
+        [Authorize]
+        [HttpGet("searchByTitle/{name}")]
+        public IActionResult SearchByTitle(string name)
+        {
+            if(name == null)
+            {
+                name = "";
+            }
+            if(name != null)
+            {
+                List<Event> events = applicationContext.Events.Where(e => e.Name.ToLower().Contains(name.ToLower())).ToList();
+                return Json(events);
+            }
+            return BadRequest();
+        }
+        [HttpGet("searchByTitle")]
+        public IActionResult SearchByTitle()
+        {
+                List<Event> events = applicationContext.Events.ToList();
+                return Json(events);
+        }
+        [Authorize]
+        [HttpGet("setLike/{id}")]
+        public IActionResult SetLike(int id)
+        {
+            Comment existingComment = applicationContext.Comments.FirstOrDefault(c => c.CommentId == id);
+            if (existingComment != null)
+            {
+                User user = (User)HttpContext.Items["User"];
+                UserRate existingUserRate = applicationContext.userRates.FirstOrDefault(ur => ur.CommentId == id && ur.UserId == user.UserId);
+                if (existingUserRate == null)
+                {
+                    existingComment.LikeCounter++;
+                    UserRate userRate = new UserRate
+                    {
+                        UserId = user.UserId,
+                        CommentId = existingComment.CommentId,
+                    };
+                    applicationContext.userRates.Add(userRate);
+                    applicationContext.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    existingComment.LikeCounter--;
+                    applicationContext.userRates.Remove(existingUserRate);
+                    applicationContext.SaveChanges();
+                    return Ok();
+                }
+            }
+            return BadRequest();
+        }
+        [Authorize]
+        [HttpGet("viewPastMeetings")]
+        public IActionResult ViewPastMeetings()
+        {
+            User user = (User)HttpContext.Items["User"];
+            Profile profile = applicationContext.Profiles.Include(p => p.Events).FirstOrDefault(p => p.UserId == user.UserId);
+            List<Event> events = profile.Events.Where(e => e.Date < DateTime.Now).ToList();
+            List<Event> finalEvents = new List<Event>();
+            for(int i = 0; i < events.Count; i++)
+            {
+                Event newEvent = new Event
+                {
+                    EventId = events[i].EventId,
+                    UserId = events[i].UserId,
+                    Name = events[i].Name,
+                    Date = events[i].Date,
+                    ImagePath = events[i].ImagePath,
+                    Info = events[i].Info,
+                    Location = events[i].Location
+                };
+                finalEvents.Add(newEvent);
+            }
+            return Json(finalEvents);
         }
     }
 }

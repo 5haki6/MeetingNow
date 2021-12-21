@@ -18,5 +18,16 @@ namespace MeetingNow.Models
         public Location Location { get; set; }
         public List<Profile> Users { get; set; }
         public List<Tag> Tags { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Event @event &&
+                   EventId == @event.EventId;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(EventId);
+        }
     }
 }
