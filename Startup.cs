@@ -32,9 +32,9 @@ namespace MeetingNow
             services.AddDbContext<ApplicationContext>(options => options.UseMySql(connectionString,
                 ServerVersion.AutoDetect(connectionString)));
             services.AddControllers()
-    .AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+            .AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddHostedService<EmailService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

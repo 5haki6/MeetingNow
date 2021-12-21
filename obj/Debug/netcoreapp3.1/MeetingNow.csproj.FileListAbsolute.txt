@@ -139,3 +139,8 @@ D:\Yura\study\repos\MeetingNow\obj\Debug\netcoreapp3.1\MeetingNow.genruntimeconf
 D:\Yura\study\repos\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 D:\Yura\study\repos\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Yura\study\repos\MeetingNow\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Humanizer.dll
+D:\Типа программы\3-ий курс\АВПЗ\MeetingNow\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll

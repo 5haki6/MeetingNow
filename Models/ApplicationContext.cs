@@ -10,13 +10,9 @@ namespace MeetingNow.Models
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-            // Database.EnsureDeleted();
-            Database.EnsureCreated();
-        }
-        public ApplicationContext()
-        {
 
         }
+
         public DbSet<Event> Events { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -24,6 +20,7 @@ namespace MeetingNow.Models
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TagGroup> TagGroups { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserRate> userRates { get; set; }
         
     }
 }

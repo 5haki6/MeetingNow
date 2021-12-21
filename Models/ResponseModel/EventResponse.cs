@@ -16,5 +16,7 @@ namespace MeetingNow.Models.ResponseModel
         public DateTime Date { get; set; }
         public Location Location { get; set; }
         public List<Tag> Tags { get; set; }
+        public List<Comment> Comments { get; set; }
+        public List<int> UsersId { get; set; }
     }
 }
